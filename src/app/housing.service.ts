@@ -1,30 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HousingLocationComponent } from '../housing-location/housing-location.component';
-import { HousingLocation } from '../housing-location';
-import { HousingService } from '../housing.service';
+import { Injectable } from '@angular/core';
+import { HousingLocation } from './housing-location';
 
-@Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, HousingLocationComponent],
-  template: `
-  <section>
-    <form>
-      <input type="text" placeholder="Filter by city" />
-      <button class="primary" type="button">Search</button>
-    </form>
-  </section>
-  <section class="results">
-    <app-housing-location
-      *ngFor="let housinglocation of housingLocationList"
-      [housinglocation]="housinglocation"
-    ></app-housing-location>
-  </section>
-`,
-  styleUrl: './home.component.css'
+@Injectable({
+  providedIn: 'root'
 })
-export class HomeComponent {
+export class HousingService {
+
+  constructor() { }
+
   readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
 
   housingLocationList: HousingLocation[] = [
@@ -129,4 +112,11 @@ export class HomeComponent {
       laundry: true,
     },
   ];
+
+  getAllHousingLocations(): HousingLocation[] {
+    return this.housingLocationList;
+  }
+  getHousingLocationById(id: number): HousingLocation | undefined {
+    return this.housingLocationList.find((housingLocation) => housingLocation.id === id);
+  }
 }
