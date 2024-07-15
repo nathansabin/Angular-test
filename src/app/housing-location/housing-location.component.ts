@@ -1,4 +1,4 @@
-import { Component, input, Input } from '@angular/core';
+import { Component,Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HousingLocation } from '../housing-location';
 
