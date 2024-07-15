@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
 import { HousingLocation } from '../housing-location';
@@ -8,36 +8,21 @@ import { HousingService } from '../housing.service';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, HousingLocationComponent],
-  template: `
-  <section>
-    <form>
-      <input type="text" placeholder="Filter by city" #filter />
-      <button class="primary"
-      type="button"
-      (click)="filterResults(filter.value)"
-      >Search</button>
-    </form>
-  </section>
-  <section class="results">
-    <app-housing-location
-      *ngFor="let housinglocation of filteredLocationList"
-      [housinglocation]="housinglocation"
-    ></app-housing-location>
-  </section>
-`,
+  templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   housingService: HousingService = inject(HousingService);
   housingLocationList: HousingLocation[] = [];
   filteredLocationList: HousingLocation[] = [];
 
-  constructor() {
+  constructor() {}
+  
+  ngOnInit(): void {
     this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
       this.housingLocationList = housingLocationList;
       this.filteredLocationList = housingLocationList;
     });
-  
   }
 
   filterResults(text: string) {
